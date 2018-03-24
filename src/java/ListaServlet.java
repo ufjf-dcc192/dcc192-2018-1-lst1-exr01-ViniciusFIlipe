@@ -53,8 +53,13 @@ public class ListaServlet extends HttpServlet {
         } else if ("cresc".equals(comando)) {
             frutas1 = new ArrayList<String>();
             frutas1 = frutas;
-            for (int i = 0; i <= frutas.size(); i++) {
-                frutas.get(i).length();
+            frutas.clear();
+            for (int i = 0; i < frutas1.size(); i++) {
+                for (int j = frutas1.size(); j >=0 ; j--) {
+                    if(frutas1.get(i).length()<frutas1.get(j).length())
+                    frutas.set(i, frutas1.get(i));
+                }
+                
             }
         }
         try (PrintWriter out = response.getWriter()) {

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "ListaPessoasServlet", urlPatterns = {"/index.html"})
-public class ListaServlet extends HttpServlet {
+public class ListaServlet extends HttpServlet implements Comparator<String> {
 
     private List<String> frutas;
     private List<String> frutas1;
@@ -38,7 +38,6 @@ public class ListaServlet extends HttpServlet {
         frutas.add("Melancia");
         frutas.add("Romã");
     }
-
     ;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -51,16 +50,7 @@ public class ListaServlet extends HttpServlet {
             preencheArray();
 
         } else if ("cresc".equals(comando)) {
-            frutas1 = new ArrayList<String>();
-            frutas1 = frutas;
-            frutas.clear();
-            for (int i = 0; i < frutas1.size(); i++) {
-                for (int j = frutas1.size(); j >=0 ; j--) {
-                    if(frutas1.get(i).length()<frutas1.get(j).length())
-                    frutas.set(i, frutas1.get(i));
-                }
-                
-            }
+          Collections.sort(frutas, this);
         }
         try (PrintWriter out = response.getWriter()) {
             response.setContentType("text/html;charset=UTF-8");
@@ -86,6 +76,11 @@ public class ListaServlet extends HttpServlet {
             out.println("</html>");
         }
 
+    }
+
+    @Override
+    public int compare(String a, String b) {
+         return a.length()-b.length();
     }
 
 }
